@@ -1,43 +1,50 @@
-let languageGreet = ['english', 'xhosa', 'zulu']
-let selected = false
-languageGreetSelect = false
+let nameError = 'error-name'
+let correctNameInput = 'correct-name'
+let hide = 'hide'
+let names = []
+let username = ''
+let lang = false
+let language = false
+let greeting;
+let count = 0;
 
+export function Greet(){
 
-const GreetTest = () => {
-    let usernames = []
-    let username = ''
-    let counter = 0;
+    const setName = (name) => username = typeof name == 'string' ? name == '' ? 'enter name!'
+        : (name.trim().replace(/[^a-z, ^A-Z]/g, '')[0].toUpperCase() + name.trim().replace(/[^a-z, A-Z]/g, '').slice(1))
+        : 'name should be alphabets only!'
 
-
-    const checkRadio = () => {
-        for (let i = 0; i < languageGreetSelect.length; i++) {
-            languageGreetSelect[i].checked ? selected = true : selected
-        }
-    }
-     
-    const setLanguage = () => {
-        for (let i = 0; i < languageGreetSelect.length; i++) {
-            language = languageGreetSelect[i].value
-        }
-    }
-    const getLanguage = () => language
-
-    const setName = name => typeof name == 'string' ? (usernames.includes(name) ? (counter, usernames) : (selected ? (usernames.push(username = name), counter++) : ('select language!'))) : ('Invalid input!')
-   
+    const getNames = () => names.includes(username) ? (names) : (names.push(username))
     const getName = () => username
-    const getNames = () => usernames
-    const count = () => counter
+    const getStoredNames = () => names
 
+    const selectLanguage = (languages) => {
+        for (let i = 0; i < languages.length; i++) {
+            languages[i].checked ? (lang = true, language = languages[i].language, greeting = languages[i].greeting) : (lang, language)
+        }
+    }
+    const getCheckLang = () => lang
+    const getLanguage = () => language
+    const getGreeting = () => greeting
+    const setCount = () => getLanguage() && getGreeting() && getStoredNames() ? count = getStoredNames().length : count
+    const getCount = () => count
+
+    const nameClassName = (nameState, error, nameInput) => (nameState.classList.add(nameError), error.classList.remove(hide), error.innerHTML = 'please enter name!', nameInput.classList.add(nameError), nameInput.length <= 4 && (error.innerHTML = 'name must be more than 4 characters!'))
+    const correctNameClassName = (nameState, error, nameInput) => (nameState.classList.remove(nameError), error.classList.add(hide), error.innerHTML = '', nameInput.classList.remove(nameError), nameInput.classList.add(correctNameInput))
 
     return {
         setName,
         getName,
-
         getNames,
-        checkRadio,
-        count,
-        setLanguage,
+        getStoredNames,
+        selectLanguage,
+        getCheckLang,
         getLanguage,
+        getGreeting,
+        setCount,
+        getCount,
+        nameClassName,
+        correctNameClassName,
     }
 
 }
