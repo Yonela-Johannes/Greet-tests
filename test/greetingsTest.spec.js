@@ -1,65 +1,469 @@
+import { Greet } from '../app.js'
 mocha.setup('bdd');
 let assert = chai.assert;
-let expect = chai.expect
 mocha.checkLeaks();
 mocha.run();
 
 describe('Greetings function Test', () => {
-    const greet = GreetTest()
-    it('should accept name as a string', () => {
-        // greet.setName('Yonela')
-        // expect('Yonela').to.be.eq(greet.getName())
+    describe("Name Factory Function Test", () => {
+        it('should not be empty', () => {
+            const greet = Greet()
+            greet.setName('')
+            assert.equal('enter name!', greet.getName())
+        });
+        it('should remove all numbers in alphanumeric string and return name', () => {
+            const greet = Greet()
+            greet.setName('56Z56e56zeth565u565')
+            assert.equal('Zezethu', greet.getName())
+        });
+        it('should remove all spaces in alphanumeric string and return name', () => {
+            const greet = Greet()
+            greet.setName('   2yo3ne5235564la   ')
+            assert.equal('Yonela', greet.getName())
+        });
+        it('should start name with an uppercase', () => {
+            const greet = Greet()
+            greet.setName('thamsangqa')
+            assert.equal('Thamsangqa', greet.getName())
+        });
+        it('should return error if numbers is entered', () => {
+            const greet = Greet()
+            greet.setName(12322)
+            assert.equal('name should be alphabets only!', greet.getName())
+        });
+        it('should store names in list', () => {
+            const greet = Greet()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            assert.deepEqual(['Yanga', 'Anthony', 'Lukhanyo'], greet.getStoredNames())
+        });
+        it('should not store duplicated names in the list', () => {
+            const greet = Greet()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            assert.deepEqual(['Yanga', 'Anthony', 'Lukhanyo'], greet.getStoredNames())
+        });
     });
-    it('should accept alphanumeric only as name', () => {
-        // const greet = GreetTest()
-        // greet.setName(1452115)
-        // assert.equal('invalid input', greet.getName())
+    describe("Radio button selection test", () => {
+        it('should false if language not checked/selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal(false, greet.getLanguage())
+        });
+        it('should true if language is selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: true,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal(true, greet.getCheckLang())
+        });
+        it('should select isiXhosa if is selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: true,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal("isiXhosa", greet.getLanguage())
+        });
+        it('should display English if is selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: true,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal("English", greet.getLanguage())
+        });
+        it('should select "Sawubona" if "isiZulu" is selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: true,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal("Sawubona", greet.getGreeting())
+        });
+        it('should select "Lumela" if "Sesotho" is selected', () => {
+            const greet = Greet()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "Sesotho",
+                checked: true,
+                greeting: "Lumela"
+            }
+            ]
+            greet.selectLanguage(languages)
+            assert.equal("Lumela", greet.getGreeting())
+        });
     });
-    it('should not count if name is not entered', () => {
-        const greet = GreetTest()
-        greet.count()
-        greet.count()
-        expect(0).to.be.eq(greet.count())
+    describe('Count', () => {
+        it('should not count if username already exist in list', () => {
+            const greet = Greet()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(4, greet.getCount())
+        });
+        it('should not count if there is no username', () => {
+            const greet = Greet()
+            greet.resetNames()
+            greet.setCount()
+            assert.deepEqual(0, greet.getCount())
+        });
+        it('should count if username do not exist in stored list', () => {
+            const greet = Greet()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.setName('Zezethu')
+            greet.getNames()
+            greet.setName('Sapho')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(6, greet.getCount())
+        })
     });
-    it('should not add name if  name had already been entered', () => {
-        const greet = GreetTest()
-        greet.setName('yonela')
-        greet.setName('yonela')
-        greet.setName('niello')
-        greet.setName('codex')
-        // console.log(greet.getName())
-        console.log(greet.getName())
-        console.log(greet.getNames())
-        console.log(greet.count())
-        console.log(greet.count())
+    describe('Display Name and Greeting', () => {
+        it('should display "Hello" "name" if selected language is English', () => {
+            const greet = Greet()
+            greet.resetNames()
+            let languages = [{
+                language: "English",
+                checked: true,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.selectLanguage(languages)
+            assert.equal("Hello Yonela",`${greet.getGreeting()} ${greet.getName()}`)
+        });
+        it('should display "Molo" "name" if selected language is isiXhosa', () => {
+            const greet = Greet()
+            greet.resetNames()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: true,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.selectLanguage(languages)
+            greet.getLanguage()
+            assert.equal("Molo Yonela", `${greet.getGreeting()} ${greet.getName()}`)
+        });
+        it('should display "Hello" "name" if selected language is English', () => {
+            const greet = Greet()
+            greet.resetNames()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: true,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            console.log(greet.selectLanguage(languages))
+            greet.setCount()
+            console.log(greet.getCount())
+            console.log(greet.getStoredNames())
+            console.log(greet.getName())
+            console.log(greet.getLanguage())
+            const language = greet.getGreeting()
+            assert.equal("Molo Yonela", `${language} ${greet.getName()}`)
+        });
     });
-    it('should count if name is entered', () => {
-        const greet = GreetTest()
-        greet.setName('codeX')
-        greet.count()
-        greet.count()
-        greet.count()
-        greet.count()
-        greet.count()
-        // assert.equal(5, greet.count())
-
-    })
-    it('should stop count when name was already entered', () => {
-        const greet = GreetTest()
-        greet.setName('Yonela')
-        greet.setName('Yonela')
-        greet.setName('codeX')
-        // console.log(greet.getName())
-        // console.log(greet.usernames)
-        // console.log(greet.storedNames())
+    describe('Display Name, Count and Greeting', () => {
+        it('should display "Molo" "Name" and "Count" if 3 names and language is isiXhosa', () => {
+            const greet = Greet()
+            greet.resetNames()
+            let languages = [{
+                language: "English",
+                checked: false,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: true,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.selectLanguage(languages)
+            greet.getLanguage()
+            assert.equal("Molo Yonela, count: 3", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
+        });
+        it('should display "Hallo" "Name" and "Count" if 5 names and language is isiXhosa', () => {
+            const greet = Greet()
+            greet.resetNames()
+            let languages = [{
+                language: "English",
+                checked: true,
+                greeting: "Hello"
+            },
+            {
+                language: "Afrikaans",
+                checked: false,
+                greeting: "Hallo"
+            }, {
+                language: "isiXhosa",
+                checked: false,
+                greeting: "Molo"
+            }, {
+                language: "isiZulu",
+                checked: false,
+                greeting: "Sawubona"
+            }, {
+                language: "seSotho",
+                checked: false,
+                greeting: "Lumela"
+            }
+            ]
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setName('Thamsangqa')
+            greet.getNames()
+            greet.setName('Phumza')
+            greet.getNames()
+            greet.setCount()
+            greet.getStoredNames()
+            greet.selectLanguage(languages)
+            greet.getLanguage()
+            assert.equal("Hello Phumza, count: 6", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
+        });
     });
-    it('should be greater than 4 alphabetical characters', () => {
-
-    })
-    it('should return error when no radio button is pressed', () => {
-
-    });
-    it('should retrurn hello in given language and name', () => {
-
-    })
 })
