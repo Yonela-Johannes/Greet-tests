@@ -15,6 +15,7 @@ export function Greet(){
         : 'name should be alphabets only!'
 
     const getNames = () => names.includes(username) ? (names) : (names.push(username))
+    const resetNames = () => names = []
     const getName = () => username
     const getStoredNames = () => names
 
@@ -36,6 +37,7 @@ export function Greet(){
         setName,
         getName,
         getNames,
+        resetNames,
         getStoredNames,
         selectLanguage,
         getCheckLang,
