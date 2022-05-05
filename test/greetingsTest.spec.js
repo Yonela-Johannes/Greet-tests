@@ -270,6 +270,32 @@ describe('Greetings function Test', () => {
             assert.deepEqual(6, greet.getCount())
         })
     });
+    describe('Name and Count', () => {
+        it('should not count if name is entered multiple times and it exist', () => {
+            const greet = Greet()
+            greet.resetNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(1, greet.getCount())
+        });
+        it('should count if name is entered and it does not exist in list', () => {
+            const greet = Greet()
+            greet.resetNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(3, greet.getCount())
+        });
+    });
     describe('Display Name and Greeting', () => {
         it('should display "Hello" "name" if selected language is English', () => {
             const greet = Greet()
@@ -304,7 +330,7 @@ describe('Greetings function Test', () => {
             greet.setName('Yonela')
             greet.getNames()
             greet.selectLanguage(languages)
-            assert.equal("Hello Yonela",`${greet.getGreeting()} ${greet.getName()}`)
+            assert.equal("Hello Yonela", `${greet.getGreeting()} ${greet.getName()}`)
         });
         it('should display "Molo" "name" if selected language is isiXhosa', () => {
             const greet = Greet()
