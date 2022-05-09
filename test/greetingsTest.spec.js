@@ -6,7 +6,7 @@ mocha.run();
 
 describe('Greetings function Test', () => {
     describe("Name Factory Function Test", () => {
-        it('should not be empty', () => {
+        it('should not pass in empty values', () => {
             const greet = Greet()
             greet.setName('')
             assert.equal('enter name!', greet.getName())
@@ -14,17 +14,17 @@ describe('Greetings function Test', () => {
         it('should remove all numbers in alphanumeric string and return name', () => {
             const greet = Greet()
             greet.setName('56Z56e56zeth565u565')
-            assert.equal('Zezethu', greet.getName())
+            assert.equal('zezethu', greet.getName())
         });
         it('should remove all spaces in alphanumeric string and return name', () => {
             const greet = Greet()
             greet.setName('   2yo3ne5235564la   ')
-            assert.equal('Yonela', greet.getName())
+            assert.equal('yonela', greet.getName())
         });
         it('should start name with an uppercase', () => {
             const greet = Greet()
             greet.setName('thamsangqa')
-            assert.equal('Thamsangqa', greet.getName())
+            assert.equal('thamsangqa', greet.getName())
         });
         it('should return error if numbers is entered', () => {
             const greet = Greet()
@@ -39,7 +39,7 @@ describe('Greetings function Test', () => {
             greet.getNames()
             greet.setName('Lukhanyo')
             greet.getNames()
-            assert.deepEqual(['Yanga', 'Anthony', 'Lukhanyo'], greet.getStoredNames())
+            assert.deepEqual(['yanga', 'anthony', 'lukhanyo'], greet.getStoredNames())
         });
         it('should not store duplicated names in the list', () => {
             const greet = Greet()
@@ -53,7 +53,7 @@ describe('Greetings function Test', () => {
             greet.getNames()
             greet.setName('Yanga')
             greet.getNames()
-            assert.deepEqual(['Yanga', 'Anthony', 'Lukhanyo'], greet.getStoredNames())
+            assert.deepEqual(['yanga', 'anthony', 'lukhanyo'], greet.getStoredNames())
         });
     });
     describe("Radio button selection test", () => {
@@ -270,6 +270,32 @@ describe('Greetings function Test', () => {
             assert.deepEqual(6, greet.getCount())
         })
     });
+    describe('Name and Count', () => {
+        it('should not count if name is entered multiple times and it exist', () => {
+            const greet = Greet()
+            greet.resetNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setName('Yanga')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(1, greet.getCount())
+        });
+        it('should count if name is entered and it does not exist in list', () => {
+            const greet = Greet()
+            greet.resetNames()
+            greet.setName('Yonela')
+            greet.getNames()
+            greet.setName('Anthony')
+            greet.getNames()
+            greet.setName('Lukhanyo')
+            greet.getNames()
+            greet.setCount()
+            assert.deepEqual(3, greet.getCount())
+        });
+    });
     describe('Display Name and Greeting', () => {
         it('should display "Hello" "name" if selected language is English', () => {
             const greet = Greet()
@@ -304,7 +330,7 @@ describe('Greetings function Test', () => {
             greet.setName('Yonela')
             greet.getNames()
             greet.selectLanguage(languages)
-            assert.equal("Hello Yonela",`${greet.getGreeting()} ${greet.getName()}`)
+            assert.equal("Hello yonela", `${greet.getGreeting()} ${greet.getName()}`)
         });
         it('should display "Molo" "name" if selected language is isiXhosa', () => {
             const greet = Greet()
@@ -340,7 +366,7 @@ describe('Greetings function Test', () => {
             greet.getNames()
             greet.selectLanguage(languages)
             greet.getLanguage()
-            assert.equal("Molo Yonela", `${greet.getGreeting()} ${greet.getName()}`)
+            assert.equal("Molo yonela", `${greet.getGreeting()} ${greet.getName()}`)
         });
         it('should display "Hello" "name" if selected language is English', () => {
             const greet = Greet()
@@ -381,7 +407,7 @@ describe('Greetings function Test', () => {
             console.log(greet.getName())
             console.log(greet.getLanguage())
             const language = greet.getGreeting()
-            assert.equal("Molo Yonela", `${language} ${greet.getName()}`)
+            assert.equal("Molo yonela", `${language} ${greet.getName()}`)
         });
     });
     describe('Display Name, Count and Greeting', () => {
@@ -419,7 +445,7 @@ describe('Greetings function Test', () => {
             greet.getNames()
             greet.selectLanguage(languages)
             greet.getLanguage()
-            assert.equal("Molo Yonela, count: 3", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
+            assert.equal("Molo yonela, count: 3", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
         });
         it('should display "Hallo" "Name" and "Count" if 5 names and language is isiXhosa', () => {
             const greet = Greet()
@@ -463,7 +489,7 @@ describe('Greetings function Test', () => {
             greet.getStoredNames()
             greet.selectLanguage(languages)
             greet.getLanguage()
-            assert.equal("Hello Phumza, count: 6", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
+            assert.equal("Hello phumza, count: 6", `${greet.getGreeting()} ${greet.getName()}, count: ${greet.getCount()}`)
         });
     });
 })

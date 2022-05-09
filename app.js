@@ -8,10 +8,10 @@ let language = false
 let greeting;
 let count = 0;
 
-export function Greet(){
+export function Greet() {
 
     const setName = (name) => username = typeof name == 'string' ? name == '' ? 'enter name!'
-        : (name.trim().replace(/[^a-z, ^A-Z]/g, '')[0].toUpperCase() + name.trim().replace(/[^a-z, A-Z]/g, '').slice(1))
+        : (name.trim().replace(/[^a-z, ^A-Z]/g, '').toLocaleLowerCase())
         : 'name should be alphabets only!'
 
     const getNames = () => names.includes(username) ? (names) : (names.push(username))
